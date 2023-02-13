@@ -10,15 +10,5 @@ const insert = async (collectionName, data)=>{
     return await collection.insertOne(data)
 
 }
-try {
-    await collection.insertOne({_id: 1});
-    await collection.insertOne({_id: 1});
-} catch (error) {
-    if(error instanceof MongoServerError) {
-        console.log(Error);
-    }
-    throw error;
-    }
-}
-}
+
 module.exports = insert

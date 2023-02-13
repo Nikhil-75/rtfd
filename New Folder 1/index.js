@@ -1,21 +1,8 @@
-const dbConnect = require('./mongodb');
+const dbConnect = require('./model/users');
 const express = require('express');
 const app = express();
 
 app.use(express.json())
-/*const insertData=async ()=>{
-    let data = await dbConnect();
-    let result = await data.insert(
-        [
-            {
-             fname:'rohit',
-              lname:'sharma', 
-              email:'abd123@gmail.com',
-              password:'hdbsubd222@'   
-            }
-        ]
-    )
-} */
 
 app.post('/', async (req,resp)=> {
 
@@ -24,4 +11,4 @@ app.post('/', async (req,resp)=> {
    resp.json(data)
 })
 
-app.listen(5000);
+app.listen(5000, ()=>console.log("server is up"));
