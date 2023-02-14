@@ -3,7 +3,7 @@ const url = "mongodb://127.0.0.1:27017";
 const client = new MongoClient(url);
 const dbName = "users"
 
-const data = async (collectionName, data)=>{
+const insert = async (collectionName, data)=>{
     await client.connect();
     const db = client.db(dbName);
     const collection = db.collection(collectionName);

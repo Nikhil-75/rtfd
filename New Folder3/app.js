@@ -13,4 +13,4 @@ app.post('/', async (req,resp)=> {
     data:data})
 })
 
-app.listen(4000, ()=>console.log("server is up"));
+app.listen(4000)   //, ()=>console.log("server is up"));
