@@ -1,13 +1,15 @@
-const {MongoClient} = require("mongodb"); 
+const{MongoClient, Collection} = require("mongodb");
 const url = "mongodb://127.0.0.1:27017";
 const client = new MongoClient(url);
-const dbName = "userprofile"  //*
+const dbName = "userprofile" //*
 
 const insert = async (collectionName, data)=>{
     await client.connect();
     const db = client.db(dbName);
-    const collection = db.collection(collectionName);
-    return await collection.insertOne(data)
+    const collection = db.collections(collectionName);
+    return await Collection.insertOne(data)
+
+
 
 }
 
