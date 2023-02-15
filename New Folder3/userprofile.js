@@ -8,9 +8,11 @@ const insert = async (collectionName, data)=>{
     const db = client.db(dbName);
     const collection = db.collections(collectionName);
     return await Collection.insertOne(data)
-
+    return await Collection.find(data)
 
 
 }
+
+
 
 module.exports = insert

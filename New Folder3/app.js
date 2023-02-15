@@ -1,4 +1,4 @@
-**************************const express = require('express');
+const express = require('express');
 const app = express();
 const dbConnect = require('./mongodb')
 
@@ -24,6 +24,35 @@ resp.json({
 })
 
 }) 
+
+//************************************************************** */
+// average of all user age
+
+app.get('/age', async (req,resp)=> {
+    let data = await dbConnect("userprofile",req.body);
+console.log(data,
+    "==========>")
+// console.log(req.body)
+//******** *********************************************************************/
+getAge = (dob) => {
+    this.dob = req.body;
+    var today = new Date();
+    var birthday = new Date(dob);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if(m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
+//resp.status(200).json({age: getAge})
+
+resp.json({
+    data:data
+})
+})
 
 
 
