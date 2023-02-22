@@ -6,11 +6,9 @@ const client =  new MongoClient(url);
 
 const dbName ="userdata"
 
-const insert = async(collectionName,data)=>{
+const db = async()=>{
     await client.connect();
-    const db= client.db(dbName);
-    const collection = db.collection(collectionName);
-    return await collection.insertOne(data)
+    return client.db(dbName);
 }
 
-module.exports = insert
+module.exports = db;

@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const dbConnect = require('./mongodb')
+const port = 8080;
 
 app.use(express.json())
 
@@ -24,53 +25,84 @@ app.post('/userdataprofile',async(req,res)=>{
     res.json({data:data})
 })
 
+
 /*********************************3************************************ */
 
+
 app.get('/userdataprofile',async(req,res)=>{
-    let data = await dbConnect("",req.body);
-    console.log(data)
+  const db = await dbConnect();
+  const userdataProfile= db.collection('userdataprofile')
+  const data = await userdataProfile.insertOne(req.body);
 
+  console.log(data)
+  
 
-   try {
+  try {
     let arr = [];
-    let result = await (await getAllUser("userdataprofile")).find().toArray();
+    const result = await userdataProfile.find().toArray();
+    console.log(result);
     result.forEach((e) => {
-      function calculate_age(dob) {
-        var age
-        var today = new Date();
-        var birthday=Date(req.body.DOB)
-          var age = today.getFullYear() - birthday.getFullYear();
-          var m = today.getMonth() - birthday.getMonth();
-          if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-              age--;
-          }
-          console.log("getage ", age);
-      }
-      let today = calculate_age(new Date(element.dob));
-      arr.push(today);
+    function calculate_age(dob) {
+    var age
+    var today = new Date();
+    var birthday=Date(req.body.DOB)
+    var age = today.getFullYear(0) - birthday.getFullYear(0);
+    var m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+    age--;
+    }
+    console.log("getage ", age);
+    }
+    let today = calculate_age(new Date(e.dob));
+    arr.push(today);
     });
-    console.log(arr);
+    console.log(arr,'============================....................');
     let average = Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
     console.log(average);
-   } catch(error) {
+    } catch(error) {
     console.log(error);
-   }
+    }
+    res.json({data:data})
+    }); 
+    
+ /********************************4*********************************************** */   
 
-   res.json({data:data})
-});
+ app.get('/userdataprofile',async(req,res)=>{
 
-/*******************************************4************************************** */
+  const db = await dbConnect();
+  async function userDelete() {
+    try {
 
+    const database = client.db("userdata");
+    const data = database.collection("userdataprofile");
+   console.log(data)
+  
 
-app.get('/userdataprofile',async(req,res)=>{
-  let data = await dbConnect("",req.body);
-  console.log(data)
-  let arr = [];
-  let age = await (await getAllUser("userdataprofile"))
-  const query = { age: { $not: { $gt: 5 }}};
-  const cursor = myColl.find(query);
-  await cursor.forEach(console.dir);
+    const result = await userdataProfile.find().toArray();
 
 
-  res.json({data:data})
+    const dob = await userprofile.deleteOne();
+
+      
+      if (result.deletedCount > 25) {
+        console.log("Successfully deleted data.");
+      } else {
+        console.log("result");
+      }
+    } finally {
+      await client.close();
+    }
+  }
+  run().catch(console.dir);
+    res.json({data:data})
+    }); 
+
+
+
+    
+app.listen(port, () => {
+  console.log(`server is up on port ${port}`)
 })
+
+  
+
