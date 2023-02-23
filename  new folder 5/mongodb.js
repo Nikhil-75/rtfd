@@ -9,6 +9,7 @@ const dbName ="userdata"
 const db = async()=>{
     await client.connect();
     return client.db(dbName);
+console.log('database connected')
 }
 
 module.exports = db;
