@@ -1,4 +1,6 @@
-const dbConnect = require('./mongodb')
+const dbConnect =  require('../model/mongodb')
+
+console.log(dbConnect,"data is suss")
 
 
 exports.getData = async (req,resp)=> {
@@ -11,6 +13,7 @@ exports.getData = async (req,resp)=> {
  }
 
 
+
 exports.getDob =  async(req,res)=>{
   
     let data = await dbConnect("userdataprofile",req.body);
@@ -20,16 +23,29 @@ exports.getDob =  async(req,res)=>{
 }
 
 
-exports.getAvg = async(req,res)=>{
+exports.getAvg = async(req,res)=> {
 
-    const db = await dbConnect();
+
+  console.log('=============================')
+  //const db = await dbConnect("aprofile").find()
+  
+  const db = await dbConnect();
+    const userdata= db.collection('userdataprofile')
+     const data = await userdata.find();
+  //const userdata= db.collection('userdataprofile')
+  //const data = await userdata.find();
+
+  console.log(data,'=================')
+
+
+
+    /*const db = await dbConnect();
     const userdata= db.collection('userdataprofile')
      const data = await userdata.find();
   
-    //console.log(data,'=================')
+    console.log(data,'=================')*/
 
-    try {
-        
+    try{
         const arr = [];
         const result = await userdata.find().toArray();
         result.forEach((element) => {
