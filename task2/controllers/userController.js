@@ -1,6 +1,6 @@
 //const dbConnect = require('../models/userdata')
 
-const validate = require('../models/userdata')
+const validate = require('../models/userdata')  //userschema import
 
 exports.userData = async (req,res) => {
 
@@ -17,3 +17,5 @@ exports.userData = async (req,res) => {
             res.status(500).send(error);
         }
 }
+
+
