@@ -1,31 +1,42 @@
-//********working here */
-const User = require("../models/userdata")
-
-// getuser
-
-  const getUser=(async (req,res)=>{
-    const users= await User.find()
-    res.status(200).send(users)
-  })
+const validate = require('../models/userdata')
+const uservalidation = async(req,res) => {
 
 
- 
-      
-//check if user email already exists
-const userExists= await User.findOne({email})
-  
-  if(userExists){
-     res.status(400).json({message:"Email is already been register",status:"400"})
-          
-        }
-        
-const userEmail = await user.findOne({email})
+    const existUsername = await validate.findOne({username:req.body.username});
+    if(existUsername) {
+        console.log("username taken");
+        res.status(400).json({
+            message:"username taken"
+        })
+    } else {
+        console.log('user register')
+    }
+    const user = new validate(req.body);
+    const saveuserData = await user.save();
+    return res.status(300).json({
+        message: "user add successful",
+        saveData: saveData._id,
+    });
 
-if(userEmail) {
-  res.status(400).json({
-    message:"email is already been register",status:"400"
-  })
+
+const Useremail = await validate.findOne({useremail:req.body})
+
+
+const existUsername = await validate.findOne({username:req.body.username});
+if(existUsername) {
+    console.log("username taken");
+    res.status(400).json({
+        message:"username taken"
+    })
+} else {
+    console.log('user register')
+}
+const user = new validate(req.body);
+const saveuserData = await user.save();
+return res.status(300).json({
+    message: "user add successful",
+    saveData: saveData._id,
+});
 }
 
-  
-module.exports={getUser}  
+module.exports = uservalidation;
