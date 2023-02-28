@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-//const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs")
 const { Schema } = mongoose;
 
 const registerSchema = new mongoose.Schema({
@@ -15,11 +15,26 @@ confirm_Password:{type:String, required:true}
 
 //encrypted password using bcryptjs 
 
+registerSchema.pre("save",async function(next){
+    if(!this.isModified("password")){
+        return next()
+    }
 
+
+    //hash password
+
+    const salt=await bcrypt.genSalt(10)
+    const hashedPassword=await bcrypt.hash(this.password,salt)
+    this.password=hashedPassword
+    next()
+    
+})
 
 
 
 const user =  mongoose.model('Registers',registerSchema);
 
+//const loginUser = mongoose.model('Login',loginSchema);
 
- module.exports =  user
+//module.exports = loginSchema
+module.exports =  user
