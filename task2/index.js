@@ -18,11 +18,6 @@ async function main() {
     console.log('data is connected')
 }
 app.use(routers)
-
-
-
-
-
 app.listen(port, () => {
     console.log(`server is up on port ${port}`)
 })
