@@ -1,8 +1,9 @@
 const validate = require('../models/userdata')
 const bcrypt=require("bcryptjs")
 const uservalidation = async (req, res, next) => {
-  
-    const errors = [];
+   
+  const errors = [];
+   
   
   
       const emailRegexp = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -21,7 +22,7 @@ const uservalidation = async (req, res, next) => {
         };
         errors.push(error);
       }
-      if (errors.length > 0)
+      if (errors.lenvalidategth > 0)
         return res.status(500).json({ Error: "Please check below fields", errors });
   
       const existEmail = await validate.findOne({ email: req.body.email});
