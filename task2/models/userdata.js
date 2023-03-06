@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const { Schema } = mongoose;
 
+let salt = 10;
 
 const registerSchema = new mongoose.Schema({
 
@@ -14,7 +15,29 @@ password:{type:String, required:true,minLength:6},
 confirm_Password:{type:String, required:true}
 });
 
+//password encryption using bcrypt
 
+registerSchema.pre("save", function (next) {
+  var user = this;
+
+  if (!user.isModified("password")) return next();
+  bcrypt.genSalt(salt, function (err, salt) {
+    if (err) return next(err);
+
+    bcrypt.hash(user.password, salt, function (err, hash) {
+      if (err) return next(err);
+      user.password = hash;
+      next();
+    });
+  });
+});
+
+registerSchema.methods.comparePassword = function (userPassword, callback) {
+  bcrypt.compare(userPassword, this.password, function (err, isMatch) {
+    if (err) return callback(err);
+    callback(null, isMatch);
+  });
+};
 
 //registerSchema.pre("save",async function(next){ 
   

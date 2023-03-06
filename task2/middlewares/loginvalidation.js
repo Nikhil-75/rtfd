@@ -1,35 +1,51 @@
 const validate = require('../models/userdata')
-const bcrypt=require("bcryptjs")
-const userlogin = async (req, res, next) =>  {
- 
-  
-  const {username,password}=req.body
-  
-    //validate request
-   const user =await validate.findOne({username})
-  
-    if(!user){
-      res.status(400).json({message:"User not found, please username provide",status:400})
-     
-    }
+//const jwt=require("jsonwebtoken")
+const bcrypt=require("bcryptjs");
+const { userId } = require('../controllers/userController');
 
-   // /user exists, check if password is correct
+
+const userlogin=async (req,res,next)=>{ 
+
+try {
+  const {username, password} = req.body
+
+  if(!username || !password) {
+  return res.status(400).json({message:"please inter username and password",statuss:400})
+  
+  }
+  
+  const user = await validate.findOne({username})
+  if(!user) {
+    return res.status(400).json({
+      message:"user not found",status:400
+    })
+  }
   
     const passwordIsCorrect=await bcrypt.compare(password,user.password)
+  
+  if(!passwordIsCorrect) {
+  
+   return res.status(400).json({
+      message:"user not found",status:400
+    })
+  
+  }
+  
+  res.json({access_token: user._id})
+  
+  
+  
+} catch(error) {
+  console.log(error)
+}
+
+
+}
+
+
+
 
   
-
-  
-    if(user && passwordIsCorrect){
-      const{username,password}=user
-      res.status(200).json({
-          username,password
-      })
-    }else{
-      res.status(400).json({message:"Invalid username or password",status:400})
-     
-    }
+module.exports = userlogin
 
 
-
-    module.export

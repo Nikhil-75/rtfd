@@ -1,6 +1,9 @@
 const validate = require('../models/userdata')
 const bcrypt=require("bcryptjs")
-const uservalidation = async (req, res, next) => {
+const { userData } = require('../controllers/userController');
+//const { userId } = require('../controllers/userController');
+
+ uservalidation = async (req, res, next) => {
    
   const errors = [];
    
