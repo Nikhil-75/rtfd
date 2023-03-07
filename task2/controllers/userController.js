@@ -17,6 +17,7 @@ exports.userId = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
+  console.log(req.abc, "test.............")
   const Id = req.query._id;
   try {
     const user = await validate.findById(Id).exec();
@@ -27,6 +28,20 @@ exports.getUser = async (req, res) => {
     res.status(400).json({ message: 'access token do not match to any user  ' });
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  let Id = req.headers._id;
+  try {
+    const user = await userData.findByIdAndDelete(Id).exec();
+    return res.status(200).json({ message: "user deleted successfully" });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
+
+
 
 exports.userData = async (req, res) => {
   try {

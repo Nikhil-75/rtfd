@@ -1,10 +1,13 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const routers = require('./routers/routes');
-const mongoDB = 'mongodb://127.0.0.1:27017';
+const mongoDB = 'mongodb://127.0.0.1';
 
 const app = express();
-
+/*app.use((req,res,next)=>{
+    req.test = 1;
+    next()
+})*/
 app.use(express.json())
 
 app.use('/user',routers)
