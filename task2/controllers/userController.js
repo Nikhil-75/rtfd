@@ -42,6 +42,7 @@ exports.deleteUser = async (req, res) => {
 
 
 
+
 exports.userData = async (req, res) => {
   try {
     const user = new validate(req.body);
