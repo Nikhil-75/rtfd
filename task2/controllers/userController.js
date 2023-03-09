@@ -39,6 +39,15 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+exports.getAllUser =  async (req, res, next) => {
+  const Count = req.query.count;
+  try {
+  const user = await userData.find().limit(Count)
+  return res.status(200).json({user:user})
+  } catch (error) {
+    res.status(400).json({ message: error.message})
+  }
+}
 
 
 
