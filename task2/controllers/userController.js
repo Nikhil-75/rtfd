@@ -1,16 +1,19 @@
-const validate = require('../models/userdata')
-// const { userData, access_token } = require("../models/userdata");
+const {user,tokenShema } = require('../models/userdata')
+const md5 = require("md5")
+
 exports.userId = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  console.log(username,password,"============>")
-  console.log(validate,"=======>")
   try {
-    const user = await validate.findOne({ username, password }).exec();
-    console.log(user,"=======>")
+    const users = await user.findOne({username});
+    console.log(users,"=======>")
+    const token = md5(users._id);
+    console.log(token,'=-<<')
+    
+    const access_tokens = await tokenShema.save();
     return res
       .status(200)
-      .json({ message: "user login  successfully", access_token: user._id});
+      .json({ message: "user login  successfully", access_token: access_tokens});
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -30,7 +33,7 @@ exports.getUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
-  let Id = req.headers._id;
+  const Id = req.headers._id;
   try {
     const user = await userData.findByIdAndDelete(Id).exec();
     return res.status(200).json({ message: "user deleted successfully" });
@@ -42,7 +45,7 @@ exports.deleteUser = async (req, res) => {
 exports.getAllUser =  async (req, res, next) => {
   const Count = req.query.count;
   try {
-  const user = await userData.find().limit(Count)
+  const user = await registers.find().limit(Count)
   return res.status(200).json({user:user})
   } catch (error) {
     res.status(400).json({ message: error.message})
