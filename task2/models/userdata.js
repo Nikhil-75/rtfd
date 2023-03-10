@@ -15,6 +15,22 @@ password:{type:String, required:true,minLength:6},
 confirm_Password:{type:String, required:true}
 });
 
+
+const tokenSchema = new mongoose.Schema({
+    _Id: {
+    type: Schema.Types.ObjectId,
+    ref: "UserSchema",
+  },
+  access_token: {
+    type: String,
+  },
+  expireAt: {
+    type: Date,
+    default: Date.now,
+    index: { expires: 10 },
+  },
+});
+
 //password encryption using bcrypt
 
 registerSchema.pre("save", function (next) {
@@ -39,30 +55,10 @@ registerSchema.methods.comparePassword = function (userPassword, callback) {
   });
 };
 
-//registerSchema.pre("save",async function(next){ 
-  
-//    user.statics.login = async function(username,password){
 
-       
-       
-//        if(!this.isModified("password")){
-//            return next()
-//         }
-        
-        
-//         //hash password
-        
-//         const salt=await bcrypt.genSalt(10)
-//         const hashedPassword=await bcrypt.hash(this.password,salt)
-//         this.password=hashedPassword
-//         next()
-//     }
-//     })
     
     
 const user =  mongoose.model('Registers',registerSchema);
+const tokenShema = mongoose.model('Token',tokenSchema);
 
-//const loginUser = mongoose.model('Login',loginSchema);
-
-//module.exports = loginSchema
-module.exports =  user
+module.exports =  {user, tokenShema}

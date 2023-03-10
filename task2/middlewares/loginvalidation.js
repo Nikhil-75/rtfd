@@ -1,4 +1,4 @@
-const validate = require('../models/userdata')
+const {user} = require('../models/userdata')
 //const jwt=require("jsonwebtoken")
 const bcrypt=require("bcryptjs");
 const { userId } = require('../controllers/userController');
@@ -14,14 +14,14 @@ try {
   
   }
   
-  const user = await validate.findOne({username})
-  if(!user) {
+  const users = await user.findOne({username})
+  if(!users) {
     return res.status(400).json({
       message:"user not found",status:400
     })
   }
   
-    const passwordIsCorrect=await bcrypt.compare(password,user.password)
+    const passwordIsCorrect=await bcrypt.compare(password,users.password)
   
   if(!passwordIsCorrect) {
   
@@ -31,7 +31,8 @@ try {
   
   }
   
-  res.json({access_token: user._id})
+  //res.json({access_token: user._id})
+  next()
   
   
   
