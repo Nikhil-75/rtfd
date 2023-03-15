@@ -27,7 +27,7 @@ const TokenSchema = new mongoose.Schema({
   expireAt: {
     type:Date,
     default: Date.now,
-    index: { expires: 2 },
+    index: { expires: 20 },
   },
 });
 
@@ -83,6 +83,7 @@ registerSchema.methods.comparePassword = function (userPassword, callback) {
     
     
 const UserData =  mongoose.model('Registers',registerSchema);
-const UserToken = mongoose.model('Token',TokenSchema);
+const UserToken = mongoose.model('UserToken',TokenSchema);
+const UserAddress = mongoose.model('UserAddress',addressSchema);
 
-module.exports = {UserData,UserToken}
+module.exports = {UserData,UserToken,UserAddress}
