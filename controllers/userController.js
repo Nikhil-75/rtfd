@@ -114,7 +114,9 @@ exports.userAddress = async (req, res) => {
 exports.userData = async (req, res) => {
   try {
     const user = new UserData(req.body);
+    console.log(user,'>>>>')
     const savedData = await user.save();
+ 
 
     return res.status(200).json({
       message: "user registered successfully",
