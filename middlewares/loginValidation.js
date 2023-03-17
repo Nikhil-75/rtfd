@@ -13,8 +13,6 @@ const userlogin = async (req, res, next) => {
       return res.status(400).json({ message: "please inter username and password", statuss: 400 })
     }
 
-
-
     const user = await UserData.findOne({ username })
     if (!user) {
       return res.status(400).json({
@@ -25,26 +23,14 @@ const userlogin = async (req, res, next) => {
     const passwordIsCorrect = await bcrypt.compare(password, user.password)
 
     if (!passwordIsCorrect) {
-
       return res.status(400).json({
         message: "password is not found ", status: 400
       })
-
     }
-
     next()
-
-
-
   } catch (error) {
     console.log(error)
   }
-
-
 }
-
-
-
-
 
 module.exports = userlogin

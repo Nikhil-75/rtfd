@@ -2,7 +2,7 @@ require('dotenv').config();
 
 
 module.exports = {
-    DB:process.env.DB,
-    JWT_SECRET:process.env.JWT_SECRET
+    DB: process.env.DB,
+    JWT_SECRET: process.env.JWT_SECRET
 }
 

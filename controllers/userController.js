@@ -90,12 +90,14 @@ exports.getUser = async (req, res) => {
 
 // enter user address and save in database...
 exports.userAddress = async (req, res) => {
+  user_id = res.token._id;
   try {
-    const addre = new UserToken(req.body);
+    const data = { ...req.body, user_id }
+    console.log(data)
+    const addre = new UserAddress(data);
 
-    console.log(addre, '=========>')
+    console.log(addre)
     const savedData = await addre.save();
-
     return res
       .status(200)
       .json({
@@ -107,16 +109,13 @@ exports.userAddress = async (req, res) => {
   }
 }
 
-
-
-
 // save to allregisterData
 exports.userData = async (req, res) => {
   try {
     const user = new UserData(req.body);
-    console.log(user,'>>>>')
+    console.log(user, '>>>>')
     const savedData = await user.save();
- 
+
 
     return res.status(200).json({
       message: "user registered successfully",

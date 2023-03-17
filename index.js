@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const routers = require('./routers/routes');
-const {DB} = require('./config');
+const { DB } = require('./config');
 
 
 const app = express();
@@ -11,7 +11,7 @@ const app = express();
 })*/
 app.use(express.json())
 
-app.use('/user',routers)
+app.use('/user', routers)
 
 const port = 8082;
 
