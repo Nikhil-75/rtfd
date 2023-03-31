@@ -3,6 +3,8 @@ const { UserData, UserAddress } = require('../models/userdata')
 const key = require("../config");
 const jwtService = require('../services/jwtService')
 const jwt = require('jsonwebtoken');
+const { access_token } = require('../models/tokenSchema');
+
 
 // find token ID during userLogin..
 exports.userId = async (req, res) => {
@@ -126,3 +128,58 @@ exports.userData = async (req, res) => {
   }
 };
 
+
+exports.forgetPassword = async (req, res) => {
+  email = req.body.email;
+  try {
+
+    const findUser = await UserData.findOne({ email: email });
+    const access_token = jwt.sign(
+      {
+        exp: Math.floor(Date.now() / 1000) + 15 * 60,
+        payload: findUser._id,
+      },
+      key.JWT_SECRET
+    );
+
+    res
+      .status(200)
+      .json({
+        message: "access token generated successfully",
+        access_token: access_token,
+      });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
+
+exports.resetPassword = async(req,res) =>{
+
+  const Id = req.token;
+  const add = req.body.password;
+  try{
+    const hashedPassword = await bcrypt.hash(add, salt);
+    const user = await UserData.findByIdAndUpdate(Id.payload,{password:hashedPassword},{new: true});
+    res
+      .status(200)
+      .json({
+        message: "password updated successfully",
+        access_token: user,
+      });
+  } catch(error){
+    res.status(400).json({message:error.message})
+  }
+
+}
+
+
+
+   exports.profileimage = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
